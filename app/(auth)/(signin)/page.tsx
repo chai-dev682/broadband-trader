@@ -4,6 +4,16 @@ import UserAuthForm from '@/components/forms/user-auth-form';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
+const points = [
+  "We're authorised by Paxful to provide crypto services.",
+  'We value and respect your privacy.',
+  'Your funds are kept safe by not storing $1 dollar in a bank.'
+];
+
+const details = [
+  `By signing up you will receive marketing emails, which you may unsubscribe from via account settings.`,
+  `All trading involves risk. We do not advise on any trading strategies or how you should buy or sell contracts.`
+]
 export const metadata: Metadata = {
   title: 'Authentication',
   description: 'Authentication forms built using the components.'
@@ -11,8 +21,8 @@ export const metadata: Metadata = {
 
 export default function AuthenticationPage() {
   return (
-    <div className="relative h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
-      <Link
+    <div className="relative h-screen flex-col items-center justify-center md:flex md:flex-row lg:px-0">
+      {/* <Link
         href="/examples/authentication"
         className={cn(
           buttonVariants({ variant: 'ghost' }),
@@ -20,9 +30,9 @@ export default function AuthenticationPage() {
         )}
       >
         Login
-      </Link>
-      <div className="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r">
-        <div className="absolute inset-0 bg-zinc-900" />
+      </Link> */}
+      <div className="relative hidden h-full flex-col bg-muted p-10 md:flex md:flex-[1] dark:border-r">
+        {/* <div className="absolute inset-0 bg-zinc-900" /> */}
         <div className="relative z-20 flex items-center text-lg font-medium">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -38,22 +48,34 @@ export default function AuthenticationPage() {
           </svg>
           Logo
         </div>
+        <div className="relative z-20 flex flex-col text-lg font-normal">
+          <h1 className="text-2xl font-semibold tracking-tight">
+            Connect with a growing community of broadband traders.
+          </h1>
+          <ul className="mt-20 font-normal text-base">
+            {points.map((item, index) => (
+              <li className='mt-1' key={index}>{item}</li>
+            ))}
+          </ul>
+          <ul className="mt-20">
+            {details.map((item, index) => (
+              <li className='mt-1' key={index}>{item}</li>
+            ))}
+          </ul>
+        </div>
         <div className="relative z-20 mt-auto">
           <blockquote className="space-y-2">
-            <p className="text-lg">&ldquo;Zohaib-Pro&rdquo;</p>
+            <p className="text-lg">&ldquo;Zohaib-Pro2&rdquo;</p>
             <footer className="text-sm">Software Developer</footer>
           </blockquote>
         </div>
       </div>
-      <div className="flex h-full items-center p-4 lg:p-8">
+      <div className="flex flex-[2] h-full items-center p-4 lg:p-8">
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col space-y-2 text-center">
             <h1 className="text-2xl font-semibold tracking-tight">
-              Create an account
+              SIGN-UP FOR FREE
             </h1>
-            <p className="text-sm text-muted-foreground">
-              Enter your email below to create your account
-            </p>
           </div>
           <UserAuthForm />
           <p className="px-8 text-center text-sm text-muted-foreground">
