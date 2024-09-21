@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "NODE_ENV=production next start",
+    "start:dev": "NODE_ENV=development next dev",
     "lint": "next lint",
     "format": "prettier . --write",
     "prepare": "husky"

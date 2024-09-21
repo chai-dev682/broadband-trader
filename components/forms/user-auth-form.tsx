@@ -39,13 +39,13 @@ const formSchema = z.object({
   username: z.string(),
   email: z.string(),
   password: z.string(),
-  phone: z.string(),
-  acceptTerms: z.boolean().refine((val) => val === true, {
-    message: 'You must accept the Terms and Conditions'
-  }),
-  acknowledgePolicy: z.boolean().refine((val) => val === true, {
-    message: 'You must acknowledge the Privacy Policy and Cookie Policy'
-  })
+  phone: z.string()
+  // acceptTerms: z.boolean().refine((val) => val === true, {
+  //   message: 'You must accept the Terms and Conditions'
+  // }),
+  // acknowledgePolicy: z.boolean().refine((val) => val === true, {
+  //   message: 'You must acknowledge the Privacy Policy and Cookie Policy'
+  // })
 });
 
 type UserFormValue = z.infer<typeof formSchema>;
