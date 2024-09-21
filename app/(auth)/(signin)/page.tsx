@@ -3,6 +3,7 @@ import Link from 'next/link';
 import UserAuthForm from '@/components/forms/user-auth-form';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { CheckCircle, Target } from 'lucide-react';
 
 const points = [
   "We're authorised by Paxful to provide crypto services.",
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
 
 export default function AuthenticationPage() {
   return (
-    <div className="relative h-screen flex-col items-center justify-center md:flex md:flex-row lg:px-0">
+    <div className="relative h-screen overflow-y-scroll flex-col items-center justify-center md:flex md:flex-row lg:px-0">
       {/* <Link
         href="/examples/authentication"
         className={cn(
@@ -54,12 +55,12 @@ export default function AuthenticationPage() {
           </h1>
           <ul className="mt-20 font-normal text-base">
             {points.map((item, index) => (
-              <li className='mt-1' key={index}>{item}</li>
+              <li className='flex gap-4 mt-1' key={index}><Target /> {item}</li>
             ))}
           </ul>
           <ul className="mt-20">
             {details.map((item, index) => (
-              <li className='mt-1' key={index}>{item}</li>
+              <li className='flex gap-2 mt-1' key={index}><CheckCircle size={50}/> {item}</li>
             ))}
           </ul>
         </div>
