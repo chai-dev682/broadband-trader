@@ -1,4 +1,4 @@
-// Inspired by react-hot-toast library
+'use client';
 import * as React from 'react';
 
 import type { ToastActionElement, ToastProps } from '@/components/ui/toast';
@@ -179,11 +179,21 @@ function useToast() {
     };
   }, [state]);
 
+  function testToast() {
+    toast({
+      variant: 'success',
+      title: 'Title: Comming Soon!',
+      description: 'Description: Description will be available soon!'
+    });
+  }
   return {
     ...state,
     toast,
+    testToast,
     dismiss: (toastId?: string) => dispatch({ type: 'DISMISS_TOAST', toastId })
   };
 }
 
-export { useToast, toast };
+
+
+export { useToast,  toast };
