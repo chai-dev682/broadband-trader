@@ -42,6 +42,17 @@ const formSchema = z.object({
   // acknowledgePolicy: z.boolean().refine((val) => val === true, {
   //   message: 'You must acknowledge the Privacy Policy and Cookie Policy',
   // }),
+
+  contract_id: z.string(),
+  note_id: z.string(),
+  sell_date: z.string(),
+  internet_speed: z.string(),
+  country: z.string(),
+  asking_price: z.string(),
+  network_bandwidth_from_isp: z.string(),
+  order_date: z.string(),
+  order_number: z.string(),
+  sku: z.string()
 });
 
 type UserFormValue = z.infer<typeof formSchema>;
@@ -68,7 +79,9 @@ export default function NoteCreationForm() {
 
   const onSubmit = async (data: UserFormValue) => {
     setLoading(true);
-    setTimeout((()=>{setLoading(false)}), 2000);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
   };
 
   return (
@@ -248,23 +261,15 @@ export default function NoteCreationForm() {
             )}
           />
 
-
-          <Button disabled={loading} className="ml-auto w-full" type="submit">
+          <Button
+            disabled={loading}
+            className="ml-auto bg-green-500 px-10"
+            type="submit"
+          >
             Submit Contract
           </Button>
         </form>
       </Form>
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
-            Or continue with
-          </span>
-        </div>
-      </div>
-      <GithubSignInButton />
     </>
   );
 }

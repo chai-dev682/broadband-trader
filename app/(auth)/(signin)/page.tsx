@@ -14,7 +14,7 @@ const points = [
 const details = [
   `By signing up you will receive marketing emails, which you may unsubscribe from via account settings.`,
   `All trading involves risk. We do not advise on any trading strategies or how you should buy or sell contracts.`
-]
+];
 export const metadata: Metadata = {
   title: 'Authentication',
   description: 'Authentication forms built using the components.'
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 
 export default function AuthenticationPage() {
   return (
-    <div className="relative h-screen overflow-y-scroll flex-col items-center justify-center md:flex md:flex-row lg:px-0">
+    <div className="relative h-screen flex-col items-center justify-center overflow-y-scroll md:flex md:flex-row lg:px-0">
       {/* <Link
         href="/examples/authentication"
         className={cn(
@@ -53,25 +53,29 @@ export default function AuthenticationPage() {
           <h1 className="text-2xl font-semibold tracking-tight">
             Connect with a growing community of broadband traders.
           </h1>
-          <ul className="mt-20 font-normal text-base">
+          <ul className="mt-20 text-base font-normal">
             {points.map((item, index) => (
-              <li className='flex gap-4 mt-1' key={index}><Target /> {item}</li>
+              <li className="mt-1 flex gap-4" key={index}>
+                <Target /> {item}
+              </li>
             ))}
           </ul>
           <ul className="mt-20">
             {details.map((item, index) => (
-              <li className='flex gap-2 mt-1' key={index}><CheckCircle size={50}/> {item}</li>
+              <li className="mt-1 flex gap-2" key={index}>
+                <CheckCircle size={50} /> {item}
+              </li>
             ))}
           </ul>
         </div>
         <div className="relative z-20 mt-auto">
           <blockquote className="space-y-2">
-            <p className="text-lg">&ldquo;Zohaib-Pro2&rdquo;</p>
-            <footer className="text-sm">Software Developer</footer>
+            <p className="text-lg">&ldquo;Meshly&rdquo;</p>
+            <footer className="text-sm">P2P Trading Platform</footer>
           </blockquote>
         </div>
       </div>
-      <div className="flex flex-[2] h-full items-center p-4 lg:p-8">
+      <div className="flex h-full flex-[2] items-center p-4 lg:p-8">
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col space-y-2 text-center">
             <h1 className="text-2xl font-semibold tracking-tight">

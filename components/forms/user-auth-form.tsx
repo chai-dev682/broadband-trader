@@ -20,7 +20,6 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css'; // Import the styles
 import { Checkbox } from '../ui/checkbox';
 
-
 const formSchema = z.object({
   // firstname: z.string().min(1, { message: 'First name is required' }),
   // lastname: z.string().min(1, { message: 'Last name is required' }),
@@ -34,6 +33,19 @@ const formSchema = z.object({
   // acknowledgePolicy: z.boolean().refine((val) => val === true, {
   //   message: 'You must acknowledge the Privacy Policy and Cookie Policy',
   // }),
+
+  firstname: z.string(),
+  lastname: z.string(),
+  username: z.string(),
+  email: z.string(),
+  password: z.string(),
+  phone: z.string(),
+  acceptTerms: z.boolean().refine((val) => val === true, {
+    message: 'You must accept the Terms and Conditions'
+  }),
+  acknowledgePolicy: z.boolean().refine((val) => val === true, {
+    message: 'You must acknowledge the Privacy Policy and Cookie Policy'
+  })
 });
 
 type UserFormValue = z.infer<typeof formSchema>;
@@ -89,7 +101,7 @@ export default function UserAuthForm() {
             />
             <FormField
               control={form.control}
-              name="lastName"
+              name="lastname"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
@@ -189,21 +201,20 @@ export default function UserAuthForm() {
           />
 
           <div className="flex items-center">
-            <Checkbox
-
-            />
-            <FormLabel className="ml-2">I accept the Terms & Conditions of Meshly Inc</FormLabel>
-          </div>
-
-          <div className="flex items-center">
-            <Checkbox
-
-            />
-            <FormLabel className="ml-2">I acknowledge that my information will be used in accordance with the Privacy Policy and Cookie Policy
+            <Checkbox />
+            <FormLabel className="ml-2">
+              I accept the Terms & Conditions of Meshly Inc
             </FormLabel>
           </div>
 
-          
+          <div className="flex items-center">
+            <Checkbox />
+            <FormLabel className="ml-2">
+              I acknowledge that my information will be used in accordance with
+              the Privacy Policy and Cookie Policy
+            </FormLabel>
+          </div>
+
           <Button disabled={loading} className="ml-auto w-full" type="submit">
             Create Account
           </Button>

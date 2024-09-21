@@ -28,6 +28,7 @@ import {
   User,
   User2Icon,
   UserX2Icon,
+  StickyNote,
   X
 } from 'lucide-react';
 
@@ -59,6 +60,7 @@ export const Icons = {
   pizza: Pizza,
   sun: SunMedium,
   moon: Moon,
+  note: StickyNote,
   laptop: Laptop,
   gitHub: ({ ...props }: LucideProps) => (
     <svg

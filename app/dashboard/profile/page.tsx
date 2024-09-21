@@ -8,7 +8,6 @@ const breadcrumbItems = [
   { title: 'Profile', link: '/dashboard/profile' }
 ];
 export default function page() {
-  const {toast} = useToast();
   return (
     <PageContainer scrollable={true}>
       <div className="space-y-4">
