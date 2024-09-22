@@ -5,54 +5,40 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import GithubSignInButton from '../github-auth-button';
-import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css'; // Import the styles
-import { Checkbox } from '../ui/checkbox';
+import 'react-phone-input-2/lib/style.css';
+import { useToast } from '../ui/use-toast';
+import TextLink from '../custom/text-link';
+import { DefaultSpinner } from '../custom/spinner';
 
 const formSchema = z.object({
-  // firstname: z.string().min(1, { message: 'First name is required' }),
-  // lastname: z.string().min(1, { message: 'Last name is required' }),
-  // username: z.string().min(1, { message: 'Username is required' }),
-  // email: z.string().email({ message: 'Enter a valid email address' }),
-  // password: z.string().min(6, { message: 'Password must be at least 6 characters long' }),
-  // phone: z.string().min(7, 'Invalid phone number'),
-  // acceptTerms: z.boolean().refine((val) => val === true, {
-  //   message: 'You must accept the Terms and Conditions',
-  // }),
-  // acknowledgePolicy: z.boolean().refine((val) => val === true, {
-  //   message: 'You must acknowledge the Privacy Policy and Cookie Policy',
-  // }),
-
-  firstname: z.string(),
-  lastname: z.string(),
-  username: z.string(),
-  email: z.string(),
-  password: z.string(),
-  phone: z.string()
-  // acceptTerms: z.boolean().refine((val) => val === true, {
-  //   message: 'You must accept the Terms and Conditions'
-  // }),
-  // acknowledgePolicy: z.boolean().refine((val) => val === true, {
-  //   message: 'You must acknowledge the Privacy Policy and Cookie Policy'
-  // })
+  email: z.string().email({ message: 'Enter a valid email address' }),
+  password: z
+    .string()
+    .min(6, { message: 'Password must be at least 6 characters long' })
 });
 
 type UserFormValue = z.infer<typeof formSchema>;
 
-export default function UserAuthForm() {
+interface UserAuthFormProps {
+  onNotHaveAccount: () => void;
+}
+
+export const UserAuthForm: React.FC<UserAuthFormProps> = ({
+  onNotHaveAccount
+}) => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl');
+  const error = searchParams.get('error');
   const [loading, setLoading] = useState(false);
   const defaultValues = {
     email: '',
@@ -67,75 +53,35 @@ export default function UserAuthForm() {
     defaultValues
   });
 
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (error === 'CredentialsSignin')
+      toast({
+        title: 'Invalid Credentials',
+        variant: 'destructive'
+      });
+  }, []);
+
   const onSubmit = async (data: UserFormValue) => {
+    setLoading(true);
     signIn('credentials', {
       email: data.email,
+      password: data.password,
       callbackUrl: callbackUrl ?? '/dashboard'
     });
   };
 
   return (
     <>
+      <div className="flex flex-col space-y-2 py-2 text-center">
+        <h1 className="text-2xl font-semibold tracking-tight">SIGN IN</h1>
+      </div>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full space-y-2"
         >
-          <div className="flex flex-col gap-2 md:flex-row">
-            <FormField
-              control={form.control}
-              name="firstname"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      type="text"
-                      placeholder="First Name"
-                      disabled={loading} // You can keep this if you have a loading state
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="lastname"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      type="text"
-                      placeholder="Last Name"
-                      disabled={loading} // You can keep this if you have a loading state
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Username"
-                    disabled={loading}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
           <FormField
             control={form.control}
             name="email"
@@ -173,53 +119,21 @@ export default function UserAuthForm() {
               </FormItem>
             )}
           />
-
-          <FormField
-            control={form.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <PhoneInput
-                    country={'us'} // Default country code
-                    value={field.value}
-                    onChange={field.onChange}
-                    disabled={loading}
-                    placeholder="Phone"
-                    inputStyle={{
-                      width: '100%', // Full width
-                      padding: '10px', // Adjust padding
-                      border: '1px solid #ccc', // Border styling
-                      borderRadius: '4px', // Rounded corners
-                      paddingLeft: '50px'
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <div className="flex items-center">
-            <Checkbox />
-            <FormLabel className="ml-2">
-              I accept the Terms & Conditions of Meshly Inc
-            </FormLabel>
-          </div>
-
-          <div className="flex items-center">
-            <Checkbox />
-            <FormLabel className="ml-2">
-              I acknowledge that my information will be used in accordance with
-              the Privacy Policy and Cookie Policy
-            </FormLabel>
-          </div>
-
+          {loading && (
+            <div className="flex justify-center">
+              <DefaultSpinner />
+            </div>
+          )}
           <Button disabled={loading} className="ml-auto w-full" type="submit">
-            Create Account
+            Sign In
           </Button>
         </form>
       </Form>
+
+      <TextLink
+        text="Don't have an Account? Sign Up"
+        onClick={onNotHaveAccount}
+      />
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t" />
@@ -233,4 +147,4 @@ export default function UserAuthForm() {
       <GithubSignInButton />
     </>
   );
-}
+};

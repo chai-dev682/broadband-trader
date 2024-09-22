@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import UserAuthForm from '@/components/forms/user-auth-form';
+import LoginRegisterForm from '@/components/forms/login-register-form';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { CheckCircle, Target } from 'lucide-react';
@@ -77,12 +77,7 @@ export default function AuthenticationPage() {
       </div>
       <div className="flex h-full flex-[2] items-center p-4 lg:p-8">
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-          <div className="flex flex-col space-y-2 text-center">
-            <h1 className="text-2xl font-semibold tracking-tight">
-              SIGN-UP FOR FREE
-            </h1>
-          </div>
-          <UserAuthForm />
+          <LoginRegisterForm />
           <p className="px-8 text-center text-sm text-muted-foreground">
             By clicking continue, you agree to our{' '}
             <Link

@@ -1,6 +1,8 @@
 import { NextAuthConfig } from 'next-auth';
 import CredentialProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
+import axios from 'axios';
+import admin from './app/lib/firebase-admin';
 
 const authConfig = {
   providers: [
@@ -18,19 +20,18 @@ const authConfig = {
         }
       },
       async authorize(credentials, req) {
-        const user = {
-          id: '1',
-          name: 'Tester',
-          email: credentials?.email as string
-        };
-        if (user) {
-          // Any object returned will be saved in `user` property of the JWT
-          return user;
-        } else {
-          // If you return null then an error will be displayed advising the user to check their details.
+        console.log('authrize called');
+        //const db = admin.firestore();
+        try {
+          const url = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+          const response = await axios.post(`${url}/api/users/signin`, {
+            email: credentials?.email as string,
+            password: credentials?.password as string
+          });
+          //console.log(response.data);
+          return response.data;
+        } catch (e) {
           return null;
-
-          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
         }
       }
     })
