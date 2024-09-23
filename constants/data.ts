@@ -140,6 +140,12 @@ export const navItems: NavItem[] = [
     icon: 'note',
     label: 'Notes'
   },
+  {
+    title: 'Contracts',
+    href: '/dashboard/contracts',
+    icon: 'pen',
+    label: 'Contracts'
+  },
   // {
   //   title: 'User',
   //   href: '/dashboard/user',

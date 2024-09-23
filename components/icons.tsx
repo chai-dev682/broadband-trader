@@ -26,10 +26,12 @@ import {
   Trash,
   Twitter,
   User,
+  Edit,
   User2Icon,
   UserX2Icon,
   StickyNote,
-  X
+  X,
+  Pen
 } from 'lucide-react';
 
 export type Icon = LucideIcon;
@@ -62,6 +64,7 @@ export const Icons = {
   moon: Moon,
   note: StickyNote,
   laptop: Laptop,
+  pen: Edit,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

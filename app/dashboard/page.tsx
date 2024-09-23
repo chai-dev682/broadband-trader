@@ -1,26 +1,16 @@
-import { AreaGraph } from '@/components/charts/area-graph';
-import { BarGraph } from '@/components/charts/bar-graph';
-import { PieGraph } from '@/components/charts/pie-graph';
 import ButtonLinkIcon from '@/components/custom/button-link-icon';
-import { CalendarDateRangePicker } from '@/components/date-range-picker';
 import PageContainer from '@/components/layout/page-container';
-import { RecentSales } from '@/components/recent-sales';
 import AccountSummaryCards from '@/components/summary/account-summary-cards';
 import MyAccountBalances from '@/components/summary/my-account-balances';
 import MyNotesAtGlance from '@/components/summary/my-notes-at-glance';
+import { columns } from '@/components/tables/open-notes-table/columns';
+import { OpenNotesTable } from '@/components/tables/open-notes-table/open-notes-table';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card } from '@/components/ui/card';
+import { Tabs, TabsContent } from '@/components/ui/tabs';
 // import { useToast } from '@/components/ui/use-toast';
 
 export default function page() {
-
   // const {toast} = useToast();
   return (
     <PageContainer scrollable={true}>
@@ -43,8 +33,8 @@ export default function page() {
           </TabsList> */}
           <TabsContent value="overview" className="space-y-4">
             <AccountSummaryCards />
-            <div className='flex flex-col md:flex-row gap-4'>
-            <Card className="flex-1 px-6 py-8">
+            <div className="flex flex-col gap-4 md:flex-row">
+              <Card className="flex-1 px-6 py-8">
                 <MyAccountBalances />
               </Card>
               <Card className="flex-1 px-6 py-8">
@@ -60,13 +50,30 @@ export default function page() {
                 <PieGraph />
               </div>
             </div> */}
-            <div className='flex justify-center gap-2'>
-              <ButtonLinkIcon title='Add Funds' href='/'/>
-              <ButtonLinkIcon title='Get Support' href='/support'/>
-              <ButtonLinkIcon title='Browse Notes' href='/dashboard/notes'/>
+            <div className="flex justify-center gap-2">
+              <ButtonLinkIcon title="Add Funds" href="/" />
+              <ButtonLinkIcon title="Get Support" href="/support" />
+              <ButtonLinkIcon title="Browse Notes" href="/dashboard/notes" />
             </div>
           </TabsContent>
         </Tabs>
+
+        <div>
+          <div className="mb-6 mt-12 flex items-center gap-3">
+            <h2 className="text-3xl font-semibold">Open Sell Orders</h2>
+            <Button>Reprice</Button>
+
+            <Button variant="secondary">Cancel Order</Button>
+          </div>
+          <OpenNotesTable
+            searchKey="contract_id"
+            pageNo={1}
+            columns={columns}
+            totalUsers={0}
+            data={[]}
+            pageCount={0}
+          />
+        </div>
       </div>
     </PageContainer>
   );
