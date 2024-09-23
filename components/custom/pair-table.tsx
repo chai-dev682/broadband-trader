@@ -35,8 +35,8 @@ const PairTable: React.FC<PairTableProps> = ({ data, heading }) => {
           </TableRow>
         </TableHeader> */}
         <TableBody>
-          {data.map((item) => (
-            <TableRow className="">
+          {data.map((item, index) => (
+            <TableRow key={index} className="">
               <TableCell className="w-[60%] bg-secondary/70 font-medium">
                 {item.tag}
               </TableCell>
