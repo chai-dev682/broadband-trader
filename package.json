@@ -1,10 +1,10 @@
 {
-  "name": "nextshcdndashboardstarter",
+  "name": "p2ptradingpaltform",
   "version": "0.1.0",
   "private": true,
   "author": {
-    "name": "Kiran",
-    "url": "https://github.com/Kiranism"
+    "name": "Meshly",
+    "url": "https://github.com/Meshly"
   },
   "scripts": {
     "dev": "next dev",

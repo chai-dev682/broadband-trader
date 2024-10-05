@@ -1,5 +1,4 @@
 import admin from '@/app/lib/firebase-admin';
-import { Collections } from '@/constants/firebase';
 import bcrypt from 'bcrypt';
 
 export async function POST(req: Request) {
@@ -14,7 +13,7 @@ export async function POST(req: Request) {
     const hashedPassword = await bcrypt.hash(password, process.env.SALT || 10);
 
     const db = admin.firestore();
-    await db.collection(Collections.USERS).doc(userRecord.uid).set({
+    await db.collection('users').doc(userRecord.uid).set({
       firstname,
       lastname,
       phone,
