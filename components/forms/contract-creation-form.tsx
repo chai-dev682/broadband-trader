@@ -113,7 +113,7 @@ export default function ContractCreationForm() {
                     type="number"
                     disabled={loading}
                     {...field}
-                    onChange={(e) => numPositive(e, field)}
+                    onChange={(e) => numPositive(e, field as any)}
                   />
                 </FormControl>
                 <FormMessage />
@@ -132,7 +132,7 @@ export default function ContractCreationForm() {
                     type="number"
                     disabled={loading}
                     {...field}
-                    onChange={(e) => numPositive(e, field)}
+                    onChange={(e) => numPositive(e, field as any)}
                   />
                 </FormControl>
                 <FormMessage />
@@ -151,7 +151,7 @@ export default function ContractCreationForm() {
                     type="number"
                     disabled={loading}
                     {...field}
-                    onChange={(e) => numPositive(e, field)}
+                    onChange={(e) => numPositive(e, field as any)}
                   />
                 </FormControl>
                 <FormMessage />
@@ -170,7 +170,7 @@ export default function ContractCreationForm() {
                     type="number"
                     disabled={loading}
                     {...field}
-                    onChange={(e) => numPositive(e, field)}
+                    onChange={(e) => numPositive(e, field as any)}
                   />
                 </FormControl>
                 <FormMessage />
@@ -189,7 +189,7 @@ export default function ContractCreationForm() {
                     type="number"
                     disabled={loading}
                     {...field}
-                    onChange={(e) => numPositive(e, field)}
+                    onChange={(e) => numPositive(e, field as any)}
                   />
                 </FormControl>
                 <FormMessage />
@@ -208,7 +208,7 @@ export default function ContractCreationForm() {
                     type="number"
                     disabled={loading}
                     {...field}
-                    onChange={(e) => numPositive(e, field)}
+                    onChange={(e) => numPositive(e, field as any)}
                   />
                 </FormControl>
                 <FormMessage />
