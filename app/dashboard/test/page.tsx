@@ -12,8 +12,8 @@ export default async function page() {
         <Breadcrumbs items={breadcrumbItems} />
         <h1 className="text-2xl font-bold">This page is to test components</h1>
         <div className="flex flex-wrap gap-6">
-          {breadcrumbItems.map((item) => (
-            <ButtonLinkIcon title={item.title} href={item.link} />
+          {breadcrumbItems.map((item, index) => (
+            <ButtonLinkIcon title={item.title} href={item.link} key={index} />
           ))}
         </div>
       </div>
