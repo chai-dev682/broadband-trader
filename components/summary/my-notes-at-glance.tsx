@@ -2,21 +2,24 @@
 import React, { useState } from 'react';
 import PairItem from '../custom/pair-item';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import ButtonIcon from '../custom/button-icon';
+
 const MyNotesAtGlance = () => {
   const [isShow, setIsShow] = useState(true);
   return (
     <div>
       <div className="text-2xl font-semibold">
-        My Notes at-a-Glance {1172}
-        <span
-          className="inline-block cursor-pointer text-blue-600"
+        My Notes at-a-Glance {0}
+        <ButtonIcon
+          icon={isShow ? ChevronUp : ChevronDown}
+          color="green-500"
+          size={'lg'}
           onClick={() => {
             setIsShow(!isShow);
           }}
-        >
-          {isShow ? <ChevronUp /> : <ChevronDown />}
-        </span>
+        />
       </div>
+
       {isShow && (
         <div className="mt-2">
           <PairItem tag="In Funding" value="$0" />
