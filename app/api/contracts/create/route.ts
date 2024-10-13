@@ -4,15 +4,8 @@ import { Collections } from '@/constants/firebase';
 export async function POST(req: Request) {
   // todo: handle user authentication
   try {
-    const {
-      term,
-      monthlyFee,
-      price,
-      capacity,
-      usage,
-      askingPrice,
-      maintenanceCost
-    } = await req.json();
+    const { term, monthlyFee, capacity, usage, askingPrice, maintenanceCost } =
+      await req.json();
     const db = admin.firestore();
 
     const remainingPayments = term; //initally all payments are remaining or might be term-1 (todo)
@@ -23,7 +16,7 @@ export async function POST(req: Request) {
     const newContractData = {
       term,
       monthlyFee,
-      price,
+      price: 0,
       capacity,
       usage,
       askingPrice,
