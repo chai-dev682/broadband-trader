@@ -31,7 +31,8 @@ import {
   UserX2Icon,
   StickyNote,
   X,
-  Pen
+  Pen,
+  LogOut
 } from 'lucide-react';
 
 export type Icon = LucideIcon;
@@ -40,6 +41,7 @@ export const Icons = {
   dashboard: LayoutDashboardIcon,
   logo: Command,
   login: LogIn,
+  logout: LogOut,
   close: X,
   profile: User2Icon,
   spinner: Loader2,
