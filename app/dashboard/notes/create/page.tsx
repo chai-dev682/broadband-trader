@@ -1,4 +1,5 @@
 import { Breadcrumbs } from '@/components/breadcrumbs';
+import ContractCreationForm from '@/components/forms/contract-creation-form';
 import NoteCreationForm from '@/components/forms/create-note-form';
 import PageContainer from '@/components/layout/page-container';
 import { Separator } from '@/components/ui/separator';
@@ -22,20 +23,16 @@ export default async function page({ searchParams }: paramsProps) {
   const country = searchParams.search || null;
   const offset = (page - 1) * pageLimit;
 
-  const res = await fetch(
-    `https://api.slingacademy.com/v1/sample-data/users?offset=${offset}&limit=${pageLimit}` +
-      (country ? `&search=${country}` : '')
-  );
-  const employeeRes = await res.json();
-  const totalUsers = employeeRes.total_users; //1000
+  const totalUsers = 100; //employeeRes.total_users; //1000
   const pageCount = Math.ceil(totalUsers / pageLimit);
-  const employee: Employee[] = employeeRes.users;
+  //const employee: Employee[] = employeeRes.users;
   return (
     <PageContainer scrollable={true}>
       <div className="flex flex-col space-y-4">
         <Breadcrumbs items={breadcrumbItems} />
         <Separator />
-        <NoteCreationForm />
+        {/* <NoteCreationForm /> */}
+        <ContractCreationForm />
       </div>
     </PageContainer>
   );
