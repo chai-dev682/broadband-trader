@@ -8,13 +8,11 @@ import { OpenNotesTable } from '@/components/tables/open-notes-table/open-notes-
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
-// import { useToast } from '@/components/ui/use-toast';
 
 export default function page() {
-  // const {toast} = useToast();
   return (
-    <PageContainer scrollable={true}>
-      <div className="space-y-2">
+    <PageContainer>
+      <div className="no-scrollbar thin-scrollbar h-[90vh] w-full space-y-2 overflow-y-auto">
         <div className="flex items-center justify-between space-y-2">
           <h2 className="text-2xl font-bold tracking-tight">
             Hi, Welcome back 👋
@@ -58,7 +56,7 @@ export default function page() {
           </TabsContent>
         </Tabs>
 
-        <div>
+        <div className="">
           <div className="mb-6 mt-12 flex items-center gap-3">
             <h2 className="text-3xl font-semibold">Open Sell Orders</h2>
             <Button>Reprice</Button>
