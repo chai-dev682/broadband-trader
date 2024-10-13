@@ -1,6 +1,7 @@
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import PageContainer from '@/components/layout/page-container';
 import ButtonLinkIcon from '@/components/custom/button-link-icon';
+import ApiTester from '@/components/custom/api-tester';
 
 const breadcrumbItems = [
   { title: 'Order Submission', link: '/dashboard/test/submission' }
@@ -17,6 +18,7 @@ export default async function page() {
           ))}
         </div>
       </div>
+      <ApiTester />
     </PageContainer>
   );
 }
