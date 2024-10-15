@@ -2,7 +2,6 @@ import { NextAuthConfig } from 'next-auth';
 import CredentialProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
 import axios from 'axios';
-import admin from './app/lib/firebase-admin';
 
 const authConfig = {
   providers: [
@@ -36,6 +35,17 @@ const authConfig = {
       }
     })
   ],
+  // callbacks: {
+  //   async jwt({ token, user }) {
+  //     // Initial sign-in: if user is returned, set user.id as sub in token
+  //     if (user) {
+  //       token.sub = user.id; // Explicitly setting the `sub` as user.id
+  //       token.email = user.email; // Also including email in the token
+  //       token.test = "hello testing";
+  //     }
+  //     return token;
+  //   }
+  // },
   pages: {
     signIn: '/' //sigin page
   }
