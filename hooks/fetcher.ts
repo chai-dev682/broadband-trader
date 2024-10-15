@@ -9,42 +9,43 @@ interface UseGetResponse<T> {
   data: T | null;
   loading: boolean;
   error: Error | null;
+  get: () => Promise<void>;
 }
 
 const useGet = <T>(
   url: string,
-  params: UseGetParams = {},
-  onError: (error: Error) => void = () => {}
+  isSend: boolean = true,
+  params: UseGetParams = {}
 ): UseGetResponse<T> => {
   const [data, setData] = useState<T | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const queryParams = new URLSearchParams(params).toString();
-        const response = await fetch(`${url}?${queryParams}`);
+  const get = async () => {
+    try {
+      setLoading(true);
+      const queryParams = new URLSearchParams(params).toString();
+      const response = await fetch(`${url}?${queryParams}`);
 
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const result = (await response.json()) as T;
-        setData(result);
-      } catch (err) {
-        console.error(err);
-        setError(err as Error);
-        onError(err as Error);
-      } finally {
-        setLoading(false);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
-    };
 
-    fetchData();
+      const result = (await response.json()) as T;
+      setData(result);
+    } catch (err) {
+      console.error(err);
+      setError(err as Error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isSend) get();
   }, []);
 
-  return { data, loading, error };
+  return { data, loading, error, get };
 };
 
 // Define a type for the hook's response
