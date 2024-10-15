@@ -1,9 +1,14 @@
+import { authenticate, NotAuthenticated } from '@/app/lib/authenticater';
 import admin from '@/app/lib/firebase-admin';
 import { Collections } from '@/constants/firebase';
+import { NextRequest } from 'next/server';
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   // todo: handle user authentication
   try {
+    const user = await authenticate(req);
+    if (!user) return NotAuthenticated();
+
     const { term, monthlyFee, capacity, usage, askingPrice, maintenanceCost } =
       await req.json();
     const db = admin.firestore();
@@ -21,7 +26,7 @@ export async function POST(req: Request) {
       usage,
       askingPrice,
       maintenanceCost,
-      owner: 'Dummy Owner',
+      owner: user.sub,
       remainingPayments,
       status: 'active',
       lastMaintenancePayment: admin.firestore.FieldValue.serverTimestamp(),
