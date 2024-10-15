@@ -9,14 +9,32 @@ export async function POST(req: NextRequest) {
     const user = await authenticate(req);
     if (!user) return NotAuthenticated();
 
-    const { term, monthlyFee, capacity, usage, askingPrice, maintenanceCost } =
-      await req.json();
+    const {
+      term,
+      monthlyFee,
+      capacity,
+      usage,
+      askingPrice,
+      maintenanceCost,
+      note
+    } = await req.json();
     const db = admin.firestore();
 
     const remainingPayments = term; //initally all payments are remaining or might be term-1 (todo)
 
     //start creating new contract
     const newContractRef = db.collection(Collections.CONTRACTS).doc(); // Create a new document reference
+    const newNoteRef = db.collection(Collections.NOTES).doc();
+
+    const newNoteData = {
+      ...note,
+      usage: 0,
+      owner: user.sub
+    };
+
+    await newNoteRef.set(newNoteData);
+    // Create the document in Firestore
+    const createdNote = await newNoteRef.get();
 
     const newContractData = {
       term,
@@ -30,10 +48,10 @@ export async function POST(req: NextRequest) {
       remainingPayments,
       status: 'active',
       lastMaintenancePayment: admin.firestore.FieldValue.serverTimestamp(),
-      remainingContractValue: remainingPayments * monthlyFee
+      remainingContractValue: remainingPayments * monthlyFee,
+      notes: [createdNote.id]
     };
 
-    // Create the document in Firestore
     await newContractRef.set(newContractData);
 
     // Retrieve the newly created contract (with the auto-generated ID)

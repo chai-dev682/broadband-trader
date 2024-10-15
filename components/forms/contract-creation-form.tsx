@@ -12,12 +12,12 @@ import { Input } from '@/components/ui/input';
 import { usePost } from '@/hooks/fetcher';
 import { numPositive } from '@/lib/formUtls';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { useToast } from '../ui/use-toast';
 import { DefaultSpinner } from '../custom/spinner';
+import { Modal } from '../ui/modal';
 
 const formSchema = z.object({
   term: z.number().positive('Number must be greater than zero'),
@@ -28,10 +28,15 @@ const formSchema = z.object({
   maintenanceCost: z.number().positive()
 });
 
+const formNoteSchema = z.object({
+  price: z.number().positive(),
+  fraction: z.number().positive()
+});
+
 type UserFormValue = z.infer<typeof formSchema>;
+type NoteFormValue = z.infer<typeof formNoteSchema>;
 
 export default function ContractCreationForm() {
-  const searchParams = useSearchParams();
   const defaultValues = {
     term: 12,
     monthlyFee: 0,
@@ -41,12 +46,25 @@ export default function ContractCreationForm() {
     maintenanceCost: 0
   };
 
+  const defaultNoteValues = {
+    fraction: 0,
+    price: 0
+  };
+
   const form = useForm<UserFormValue>({
     resolver: zodResolver(formSchema),
     defaultValues
   });
 
+  const noteForm = useForm<NoteFormValue>({
+    resolver: zodResolver(formNoteSchema),
+    defaultValues: defaultNoteValues
+  });
+
   const { toast } = useToast();
+  const [isNoteModal, setIsNoteModal] = useState(false);
+
+  const [contractData, setContractData] = useState<UserFormValue | null>(null);
 
   const {
     post: postContractData,
@@ -56,8 +74,15 @@ export default function ContractCreationForm() {
   } = usePost('/api/contracts/create');
 
   const onSubmit = async (data: UserFormValue) => {
-    console.log(data);
-    postContractData(data);
+    console.log('onsubmit');
+    setIsNoteModal(true);
+    setContractData(data);
+    //postContractData(data);
+  };
+  const onNoteSubmit = async (data: NoteFormValue) => {
+    const alldata = { ...contractData, note: data };
+    console.log('submitting note', alldata);
+    postContractData(alldata);
   };
 
   useEffect(() => {
@@ -215,17 +240,72 @@ export default function ContractCreationForm() {
               </FormItem>
             )}
           />
-
-          <Button
-            disabled={loading}
-            className="ml-auto bg-green-500 px-10"
-            type="submit"
-          >
-            {loading ? 'Submitting ... ' : 'Submit Contract '}
-            {loading && <DefaultSpinner size="xs" margin={5} />}
+          <Button className="ml-auto bg-green-500 px-10" type="submit">
+            Submit Contract
           </Button>
         </form>
       </Form>
+
+      <Modal
+        title="Create Note"
+        description="Create a note in this contract"
+        onClose={() => {
+          setIsNoteModal(false);
+        }}
+        isOpen={isNoteModal}
+      >
+        <Form {...noteForm}>
+          <form
+            onSubmit={noteForm.handleSubmit(onNoteSubmit)}
+            className="w-full space-y-2"
+          >
+            <FormField
+              control={noteForm.control}
+              name="price"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Price of Note</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      disabled={loading}
+                      {...field}
+                      onChange={(e) => numPositive(e, field as any)}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={noteForm.control}
+              name="fraction"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Fraction of Contract</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      disabled={loading}
+                      {...field}
+                      onChange={(e) => numPositive(e, field as any)}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button
+              disabled={loading}
+              className="ml-auto bg-green-500 px-10"
+              type="submit"
+            >
+              {loading ? 'Submitting ... ' : 'Submit Contract '}
+              {loading && <DefaultSpinner size="xs" margin={5} />}
+            </Button>
+          </form>
+        </Form>
+      </Modal>
     </>
   );
 }
