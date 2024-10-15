@@ -6,5 +6,5 @@ export async function GET(req: NextRequest) {
   if (!user) return NotAuthenticated();
 
   // If authenticated, you can include user data in the response
-  return NextResponse.json({ message: 'Hello', user }, { status: 200 });
+  return NextResponse.json({ message: 'Hello', ...user }, { status: 200 });
 }

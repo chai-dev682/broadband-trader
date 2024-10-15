@@ -21,8 +21,7 @@ const ApiTester = () => {
   }, [data, error]);
   return (
     <div>
-      {' '}
-      <Button disabled={loading} onClick={get}>
+      <Button disabled={loading} style={{ marginTop: 10 }} onClick={get}>
         Test Hello
       </Button>
     </div>
