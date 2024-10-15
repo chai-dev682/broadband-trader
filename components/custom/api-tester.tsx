@@ -8,7 +8,7 @@ import { Button } from '../ui/button';
 
 const ApiTester = () => {
   const { toast } = useToast();
-  const { data, loading, error } = useGet('/api/test/hello');
+  const { get, data, loading, error } = useGet('/api/test/hello', false);
 
   useEffect(() => {
     if (data || error) {
@@ -22,7 +22,7 @@ const ApiTester = () => {
   return (
     <div>
       {' '}
-      <Button disabled={loading} onClick={() => {}}>
+      <Button disabled={loading} onClick={get}>
         Test Hello
       </Button>
     </div>
