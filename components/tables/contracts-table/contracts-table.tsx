@@ -37,7 +37,7 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 import { columns } from './columns';
 
-interface DataTableProps<TData> {
+interface DataTableProps<TData, TValue> {
   data: TData[];
   searchKey: string;
   pageNo: number;
@@ -49,14 +49,14 @@ interface DataTableProps<TData> {
   };
 }
 
-export function NotesTable<TData, TValue>({
+export function ContractsTable<TData, TValue>({
   data,
   pageNo,
   searchKey,
   totalUsers,
   pageCount,
   pageSizeOptions = [10, 20, 30, 40, 50]
-}: DataTableProps<TData>) {
+}: DataTableProps<TData, TValue>) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();

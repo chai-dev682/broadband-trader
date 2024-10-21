@@ -1,13 +1,12 @@
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import PageContainer from '@/components/layout/page-container';
-import { columns } from '@/components/tables/notes-table/columns';
-import { NotesTable } from '@/components/tables/notes-table/notes-table';
-import { buttonVariants } from '@/components/ui/button';
-import { Heading } from '@/components/ui/heading';
+import { ContractsTable } from '@/components/tables/contracts-table/contracts-table';
 import { Separator } from '@/components/ui/separator';
 import { Employee } from '@/constants/data';
 import { cn } from '@/lib/utils';
+import { buttonVariants } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
+import { Heading } from '@/components/ui/heading';
 import Link from 'next/link';
 
 const breadcrumbItems = [
@@ -24,17 +23,19 @@ type paramsProps = {
 export default async function page({ searchParams }: paramsProps) {
   const page = Number(searchParams.page) || 1;
   const pageLimit = Number(searchParams.limit) || 10;
-  const country = searchParams.search || null;
-  const offset = (page - 1) * pageLimit;
+  const offset = searchParams.offset ?? '';
 
   const res = await fetch(
-    `https://api.slingacademy.com/v1/sample-data/users?offset=${offset}&limit=${pageLimit}` +
-      (country ? `&search=${country}` : '')
+    `${process.env.NEXTAUTH_URL}/api/contracts?offset=${offset}&limit=${pageLimit}`
   );
-  const employeeRes = await res.json();
-  const totalUsers = employeeRes.total_users; //1000
+
+  const contractsRes = await res.json();
+  const totalUsers = contractsRes.length; //1000
   const pageCount = Math.ceil(totalUsers / pageLimit);
-  const employee: Employee[] = employeeRes.users;
+  const employee: Employee[] = contractsRes.users;
+
+  console.log('res', contractsRes);
+
   return (
     <PageContainer>
       <div className="space-y-4">
@@ -70,12 +71,11 @@ export default async function page({ searchParams }: paramsProps) {
         </div> */}
         <Separator />
 
-        <NotesTable
+        <ContractsTable
           searchKey="contract_id"
           pageNo={1}
-          columns={columns}
-          totalUsers={0}
-          data={[]}
+          totalUsers={totalUsers}
+          data={contractsRes}
           pageCount={0}
         />
       </div>

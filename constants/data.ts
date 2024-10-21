@@ -127,6 +127,23 @@ export type Note = {
   annualized_return: number;
 };
 
+export type Contract = {
+  contract_id: number;
+  note_di: number;
+  monthly_recurring_fee: number;
+  term: number;
+  status: string;
+  payments_score_change: boolean;
+  days_since_payment: number;
+  remaining_payments: number;
+  remaining_contract_value: number;
+  unpaid_mrf_payments: number;
+  total_contract_value: number;
+  asking_price: number;
+  discount: number;
+  annualized_return: number;
+};
+
 export const navItems: NavItem[] = [
   {
     title: 'Dashboard',
@@ -177,7 +194,7 @@ export const navItems: NavItem[] = [
   //   label: 'kanban'
   // },
   {
-    title: 'Login',
+    title: 'Logout',
     href: '/',
     icon: 'logout',
     label: 'logout'

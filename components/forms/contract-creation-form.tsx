@@ -71,13 +71,14 @@ export default function ContractCreationForm() {
     loading,
     error: postContractError,
     data: postContractResults
-  } = usePost('/api/contracts/create');
+  } = usePost('/api/contracts');
 
   const onSubmit = async (data: UserFormValue) => {
-    console.log('onsubmit');
-    setIsNoteModal(true);
-    setContractData(data);
+    // console.log('onsubmit');
+    // setIsNoteModal(true);
+    // setContractData(data);
     //postContractData(data);
+    postContractData(data);
   };
   const onNoteSubmit = async (data: NoteFormValue) => {
     const alldata = { ...contractData, note: data };
@@ -240,8 +241,13 @@ export default function ContractCreationForm() {
               </FormItem>
             )}
           />
-          <Button className="ml-auto bg-green-500 px-10" type="submit">
-            Submit Contract
+          <Button
+            disabled={loading}
+            className="ml-auto bg-green-500 px-10"
+            type="submit"
+          >
+            {loading ? 'Submitting ... ' : 'Submit Contract '}
+            {loading && <DefaultSpinner size="xs" margin={5} />}
           </Button>
         </form>
       </Form>
