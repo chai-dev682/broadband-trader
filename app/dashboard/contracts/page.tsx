@@ -68,11 +68,8 @@ import { ContractsTable } from '@/components/tables/contracts-table/contracts-ta
 import { Employee } from '@/constants/data';
 // import { Separator } from '@radix-ui/react-dropdown-menu';
 
-import { Plus } from 'lucide-react';
 import { Heading } from '@/components/ui/heading';
-import Link from 'next/link';
-import { cn } from '@/lib/utils';
-import { buttonVariants } from '@/components/ui/button';
+import ContractsHandler from './_components/contractsHandler';
 
 const breadcrumbItems = [
   { title: 'Dashboard', link: '/dashboard' },
@@ -109,46 +106,14 @@ const sampleData2: PairTableItemType[] = [
 ];
 
 export default async function page({ searchParams }: paramsProps) {
-  const page = Number(searchParams.page) || 1;
-  const pageLimit = Number(searchParams.limit) || 10;
-  const offset = searchParams.offset ?? '';
-
-  const res = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/users/thisuser/contracts?offset=${offset}&limit=${pageLimit}`
-  );
-
-  const contractsRes = await res.json();
-  const totalUsers = contractsRes.length; //1000
-  const pageCount = Math.ceil(totalUsers / pageLimit);
-  const employee: Employee[] = contractsRes.users;
-
   return (
     <PageContainer scrollable>
       <div className="space-y-4">
         <Breadcrumbs items={breadcrumbItems} />
 
-        <div className="flex items-start justify-between">
-          <Heading
-            title={`My Contracts (${totalUsers})`}
-            description="Browse available contracts or create new one"
-          />
+        <ContractsHandler url="/api/users/contracts" label="My Contracts" />
+        <ContractsHandler url="/api/contracts" label="Total Contracts" />
 
-          <Link
-            href={'/dashboard/notes/create'}
-            className={cn(buttonVariants({ variant: 'default' }))}
-          >
-            <Plus className="mr-2 h-4 w-4" /> Add New
-          </Link>
-        </div>
-        {/* <Separator /> */}
-
-        <ContractsTable
-          searchKey="contract_id"
-          pageNo={1}
-          totalUsers={totalUsers}
-          data={contractsRes}
-          pageCount={0}
-        />
         <PairTable data={sampleData} heading="Contract Details" />
         <PairTable data={sampleData2} heading="Financial Performance" />
       </div>

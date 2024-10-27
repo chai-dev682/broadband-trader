@@ -128,7 +128,8 @@ export type Note = {
 };
 
 export type Contract = {
-  contract_id: number;
+  id: number;
+  isOwner?: boolean;
   note_di: number;
   monthly_recurring_fee: number;
   term: number;
@@ -151,12 +152,12 @@ export const navItems: NavItem[] = [
     icon: 'dashboard',
     label: 'Dashboard'
   },
-  {
-    title: 'Notes',
-    href: '/dashboard/notes',
-    icon: 'note',
-    label: 'Notes'
-  },
+  // {
+  //   title: 'Notes',
+  //   href: '/dashboard/notes',
+  //   icon: 'note',
+  //   label: 'Notes'
+  // },
   {
     title: 'Contracts',
     href: '/dashboard/contracts',

@@ -8,13 +8,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { Note } from '@/constants/data';
-import { Edit, MoreHorizontal, Trash } from 'lucide-react';
+import { Contract } from '@/constants/data';
+import { Edit, MoreHorizontal, ShoppingBasketIcon, Trash } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 interface CellActionProps {
-  data: Note;
+  data: Contract;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
@@ -23,7 +23,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const router = useRouter();
 
   const onConfirm = async () => {};
-
+  console.log('data', data);
   return (
     <>
       <AlertModal
@@ -43,13 +43,19 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
           <DropdownMenuItem
-            onClick={() => router.push(`/dashboard/notes/${data.contract_id}`)}
+            className={
+              data.isOwner ? 'hover:cursor-not-allowed' : '' + data.isOwner
+            }
+            onClick={() => {
+              if (!data.isOwner)
+                router.push(`/dashboard/contracts/buy/${data.id}`);
+            }}
           >
-            <Edit className="mr-2 h-4 w-4" /> Add Note
+            <ShoppingBasketIcon className={'mr-2 h-4 w-4 '} /> Buy
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setOpen(true)}>
+          {/* <DropdownMenuItem onClick={() => setOpen(true)}>
             <Trash className="mr-2 h-4 w-4" /> Delete
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
         </DropdownMenuContent>
       </DropdownMenu>
     </>

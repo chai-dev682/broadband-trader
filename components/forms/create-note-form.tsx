@@ -17,15 +17,10 @@ import {
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import GithubSignInButton from '../github-auth-button';
-import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css'; // Import the styles
-import { Checkbox } from '../ui/checkbox';
 
 import { countries } from '@/constants/data';
 

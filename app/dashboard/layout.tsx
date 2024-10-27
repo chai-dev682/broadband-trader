@@ -4,8 +4,8 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Next Shadcn Dashboard Starter',
-  description: 'Basic dashboard with Next.js and Shadcn'
+  title: 'P2P Trading Platform',
+  description: 'A platform for trading contracts and notes'
 };
 
 export default function DashboardLayout({

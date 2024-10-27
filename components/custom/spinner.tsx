@@ -20,7 +20,7 @@ const DefaultSpinner: React.FC<DefaultSpinnerProps> = ({
   color = 'primary',
   margin = 1
 }) => {
-  if (!color.includes('-')) {
+  if (!color.includes('-') && color != 'primary') {
     // if color isn't passed as tailwind color like red-500, blue-500
     // then convert the passed color to the tailwind color
     color = `${color}-500`; //500 means medium shade
