@@ -2,6 +2,7 @@ import ThemeToggle from '@/components/layout/ThemeToggle/theme-toggle';
 import { cn } from '@/lib/utils';
 import { MobileSidebar } from './mobile-sidebar';
 import { UserNav } from './user-nav';
+import { UserMetamaskForm } from '@/components/forms/user-metamask-form';
 
 export default function Header() {
   return (
@@ -11,6 +12,7 @@ export default function Header() {
           <MobileSidebar />
         </div>
         <div className="flex items-center gap-2">
+          <UserMetamaskForm />
           <UserNav />
           <ThemeToggle />
         </div>
