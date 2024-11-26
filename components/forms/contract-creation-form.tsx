@@ -18,6 +18,9 @@ import * as z from 'zod';
 import { useToast } from '../ui/use-toast';
 import { DefaultSpinner } from '../custom/spinner';
 import { Modal } from '../ui/modal';
+import { useMetaMaskTatum } from '@/hooks/useMetamaskTatum';
+import contractABI, { contractAddress } from '@/contracts/contractABI';
+import { ethers } from 'ethers';
 
 const formSchema = z.object({
   term: z.number().positive('Number must be greater than zero'),
@@ -37,6 +40,7 @@ type UserFormValue = z.infer<typeof formSchema>;
 type NoteFormValue = z.infer<typeof formNoteSchema>;
 
 export default function ContractCreationForm() {
+  const { account, error } = useMetaMaskTatum();
   const defaultValues = {
     term: 12,
     monthlyFee: 0,
@@ -74,15 +78,20 @@ export default function ContractCreationForm() {
   } = usePost('/api/contracts');
 
   const onSubmit = async (data: UserFormValue) => {
-    // console.log('onsubmit');
-    // setIsNoteModal(true);
-    // setContractData(data);
-    //postContractData(data);
-    postContractData(data);
+    if (!account || error) {
+      toast({
+        description: error || 'Metamask not connected',
+        variant: 'destructive'
+      });
+    } else {
+      // setIsNoteModal(true);
+      // setContractData(data);
+      const alldata = { ...data, account: account };
+      postContractData(alldata);
+    }
   };
   const onNoteSubmit = async (data: NoteFormValue) => {
-    const alldata = { ...contractData, note: data };
-    console.log('submitting note', alldata);
+    const alldata = { ...contractData, note: data, account: account };
     postContractData(alldata);
   };
 

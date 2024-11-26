@@ -1,12 +1,20 @@
-import { useState } from 'react';
+import React, { useState, createContext, useContext } from 'react';
 import { TatumSDK, Network, Ethereum, MetaMask } from '@tatumio/tatum';
 
-export function useMetaMaskTatum() {
+const MetaContext = createContext({
+  account: null as string | null,
+  error: null as string | null,
+  connectMetaMask: async () => {}
+});
+
+export const MetaProvider: React.FC<
+  React.PropsWithChildren<React.ReactNode>
+> = ({ children }) => {
   const [account, setAccount] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const connectMetaMask = async () => {
-    setError(null); // Clear any previous errors
+    setError(null);
 
     try {
       const tatum = await TatumSDK.init<Ethereum>({
@@ -17,9 +25,17 @@ export function useMetaMaskTatum() {
         .getWallet();
       setAccount(metamaskAccount);
     } catch (error: any) {
+      // Consider logging the full error object for debugging purposes
+      console.error('Error connecting to MetaMask:', error);
       setError(error.message);
     }
   };
 
-  return { connectMetaMask, account, error };
-}
+  const contextValue = { account, error, connectMetaMask };
+
+  return (
+    <MetaContext.Provider value={contextValue}>{children}</MetaContext.Provider>
+  );
+};
+
+export const useMetaMaskTatum = () => useContext(MetaContext);
