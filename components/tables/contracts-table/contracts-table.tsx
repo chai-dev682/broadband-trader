@@ -1,6 +1,6 @@
 'use client';
 import {
-  ColumnDef,
+  // ColumnDef,
   PaginationState,
   flexRender,
   getCoreRowModel,
@@ -10,7 +10,7 @@ import {
 } from '@tanstack/react-table';
 import React from 'react';
 
-import { Button } from '@/components/ui/button';
+// import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -27,11 +27,11 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table';
-import {
-  DoubleArrowLeftIcon,
-  DoubleArrowRightIcon
-} from '@radix-ui/react-icons';
-import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
+// import {
+//   DoubleArrowLeftIcon,
+//   DoubleArrowRightIcon
+// } from '@radix-ui/react-icons';
+// import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 

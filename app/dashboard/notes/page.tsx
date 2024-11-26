@@ -21,7 +21,7 @@ type paramsProps = {
 };
 
 export default async function page({ searchParams }: paramsProps) {
-  const page = Number(searchParams.page) || 1;
+  // const page = Number(searchParams.page) || 1;
   const pageLimit = Number(searchParams.limit) || 10;
   const offset = searchParams.offset ?? '';
 
@@ -31,8 +31,8 @@ export default async function page({ searchParams }: paramsProps) {
 
   const contractsRes = await res.json();
   const totalUsers = contractsRes.length; //1000
-  const pageCount = Math.ceil(totalUsers / pageLimit);
-  const employee: Employee[] = contractsRes.users;
+  // const pageCount = Math.ceil(totalUsers / pageLimit);
+  // const employee: Employee[] = contractsRes.users;
 
   console.log('res', contractsRes);
 
@@ -74,7 +74,7 @@ export default async function page({ searchParams }: paramsProps) {
         <ContractsTable
           searchKey="contract_id"
           pageNo={1}
-          totalUsers={totalUsers}
+          totalItems={totalUsers}
           data={contractsRes}
           pageCount={0}
         />
