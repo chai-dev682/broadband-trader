@@ -2,14 +2,13 @@ import { authenticate, NotAuthenticated } from '@/app/lib/authenticater';
 import admin from '@/app/lib/firebase-admin';
 import { Collections } from '@/constants/firebase';
 import { NextRequest } from 'next/server';
+import contractABI, { contractAddress } from '@/contracts/contractABI';
+import { ethers } from 'ethers';
 
 export async function GET(req: NextRequest) {
   try {
-    const user = await authenticate(req);
-    if (!user) return NotAuthenticated();
-
     const { searchParams } = new URL(req.url);
-    const limit = parseInt(searchParams.get('limit') || '10', 10); // default to 10 results per page
+    const limit = parseInt(searchParams.get('limit') || '10', 2); // default to 10 results per page
     const lastVisible = searchParams.get('lastVisible'); // get the last visible document ID from query
 
     const db = admin.firestore();
@@ -28,7 +27,6 @@ export async function GET(req: NextRequest) {
     const contractsSnapshots = await query.get();
     const contracts = contractsSnapshots.docs.map((item) => ({
       id: item.id,
-      isOwner: item.data().owner == user.sub,
       ...item.data()
     }));
 
@@ -58,18 +56,22 @@ export async function POST(req: NextRequest) {
     const user = await authenticate(req);
     if (!user) return NotAuthenticated();
 
-    const { term, monthlyFee, capacity, usage, askingPrice, maintenanceCost } =
-      await req.json();
+    const {
+      term,
+      monthlyFee,
+      capacity,
+      usage,
+      askingPrice,
+      maintenanceCost,
+      account
+    } = await req.json();
     const db = admin.firestore();
 
     const remainingPayments = term; //initally all payments are remaining or might be term-1 (todo)
 
-    //calculate
-    //api calls or anything
-
     //start creating new contract
     const newContractRef = db.collection(Collections.CONTRACTS).doc(); // Create a new document reference
-    const newNoteRef = db.collection(Collections.NOTES).doc();
+    // const newNoteRef = db.collection(Collections.NOTES).doc();
 
     // const newNoteData = {
     //   ...note,
@@ -102,6 +104,28 @@ export async function POST(req: NextRequest) {
     // Retrieve the newly created contract (with the auto-generated ID)
     const createdContract = await newContractRef.get();
 
+    console.log('contract create at firestore');
+
+    const provider = new ethers.JsonRpcProvider(process.env.QUICKNODE_ENDPOINT);
+    const signer = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
+    console.log(signer.address);
+    const contract = new ethers.Contract(
+      contractAddress,
+      contractABI,
+      provider
+    );
+    const contractWithSigner = contract.connect(signer);
+    console.log('Calling list contract function...');
+    const transactionResponse = await contractWithSigner.listContract(
+      askingPrice,
+      capacity,
+      monthlyFee,
+      maintenanceCost,
+      remainingPayments,
+      account
+    );
+    console.log(`Transaction hash: ${transactionResponse.hash}`);
+
     return new Response(
       JSON.stringify({ ...createdContract.data(), id: newContractRef.id }),
       {
@@ -110,7 +134,7 @@ export async function POST(req: NextRequest) {
     );
   } catch (error) {
     if (error instanceof Error) {
-      // console.error('Error creating new user:', error.message);
+      console.error('Error creating new user:', error.message);
       return new Response(JSON.stringify({ error: error.message }), {
         status: 400
       });
