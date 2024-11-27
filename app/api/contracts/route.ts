@@ -117,7 +117,8 @@ export async function POST(req: NextRequest) {
       );
       const contractWithSigner = contract.connect(signer);
       console.log('Calling list contract function...');
-      const transactionResponse = await contractWithSigner.listContract(
+      const listContractfunc = contractWithSigner.getFunction('listContract');
+      const transactionResponse = await listContractfunc(
         askingPrice,
         capacity,
         monthlyFee,
