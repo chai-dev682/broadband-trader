@@ -7,9 +7,11 @@ const MetaContext = createContext({
   connectMetaMask: async () => {}
 });
 
-export const MetaProvider: React.FC<
-  React.PropsWithChildren<React.ReactNode>
-> = ({ children }) => {
+type MetaProviderProps = {
+  children?: React.ReactNode;
+};
+
+export const MetaProvider: React.FC<MetaProviderProps> = ({ children }) => {
   const [account, setAccount] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
