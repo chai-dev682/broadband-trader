@@ -107,31 +107,35 @@ export async function POST(req: NextRequest) {
     console.log('contract create at firestore');
 
     const provider = new ethers.JsonRpcProvider(process.env.QUICKNODE_ENDPOINT);
-    const signer = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
-    console.log(signer.address);
-    const contract = new ethers.Contract(
-      contractAddress,
-      contractABI,
-      provider
-    );
-    const contractWithSigner = contract.connect(signer);
-    console.log('Calling list contract function...');
-    const transactionResponse = await contractWithSigner.listContract(
-      askingPrice,
-      capacity,
-      monthlyFee,
-      maintenanceCost,
-      remainingPayments,
-      account
-    );
-    console.log(`Transaction hash: ${transactionResponse.hash}`);
+    if (process.env.PRIVATE_KEY) {
+      const signer = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
+      console.log(signer.address);
+      const contract = new ethers.Contract(
+        contractAddress,
+        contractABI,
+        provider
+      );
+      const contractWithSigner = contract.connect(signer);
+      console.log('Calling list contract function...');
+      const transactionResponse = await contractWithSigner.listContract(
+        askingPrice,
+        capacity,
+        monthlyFee,
+        maintenanceCost,
+        remainingPayments,
+        account
+      );
+      console.log(`Transaction hash: ${transactionResponse.hash}`);
 
-    return new Response(
-      JSON.stringify({ ...createdContract.data(), id: newContractRef.id }),
-      {
-        status: 201
-      }
-    );
+      return new Response(
+        JSON.stringify({ ...createdContract.data(), id: newContractRef.id }),
+        {
+          status: 201
+        }
+      );
+    } else {
+      throw new Error('private key is not defined');
+    }
   } catch (error) {
     if (error instanceof Error) {
       console.error('Error creating new user:', error.message);
