@@ -7,10 +7,6 @@ const breadcrumbItems = [
   { title: 'Order Submission', link: '/dashboard/test/submission' }
 ];
 export default async function page() {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/test/hello`);
-
-  console.log(res);
-
   return (
     <PageContainer>
       <div className="space-y-4">

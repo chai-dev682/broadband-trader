@@ -8,6 +8,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { Heading } from '@/components/ui/heading';
 import Link from 'next/link';
+import axios from 'axios';
 
 const breadcrumbItems = [
   { title: 'Dashboard', link: '/dashboard' },
@@ -25,11 +26,12 @@ export default async function page({ searchParams }: paramsProps) {
   const pageLimit = Number(searchParams.limit) || 10;
   const offset = searchParams.offset ?? '';
 
-  const res = await fetch(
+  const res = await axios(
     `${process.env.NEXTAUTH_URL}/api/contracts?offset=${offset}&limit=${pageLimit}`
   );
+  console.log(res);
 
-  const contractsRes = await res.json();
+  const contractsRes = res.data();
   const totalUsers = contractsRes.length; //1000
   // const pageCount = Math.ceil(totalUsers / pageLimit);
   // const employee: Employee[] = contractsRes.users;

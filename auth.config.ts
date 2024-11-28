@@ -35,17 +35,20 @@ const authConfig = {
       }
     })
   ],
-  callbacks: {
-    async jwt({ token, user }) {
-      // Initial sign-in: if user is returned, set user.id as sub in token
-      if (user) {
-        token.sub = user.id; // Explicitly setting the `sub` as user.id
-        token.email = user.email; // Also including email in the token
-        token.test = 'hello testing';
-      }
-      return token;
-    }
-  },
+  // callbacks: {
+  //   async jwt({ token, user }) {
+  //     console.log("jwt callback called")
+  //     console.log(token);
+  //     console.log(user);
+  //     // Initial sign-in: if user is returned, set user.id as sub in token
+  //     if (user) {
+  //       token.sub = user.id; // Explicitly setting the `sub` as user.id
+  //       token.email = user.email; // Also including email in the token
+  //       token.test = 'hello testing';
+  //     }
+  //     return token;
+  //   }
+  // },
   pages: {
     signIn: '/' //sigin page
   }

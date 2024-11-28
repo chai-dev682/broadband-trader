@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 interface UseGetParams {
   [key: string]: any;
@@ -25,14 +26,9 @@ const useGet = <T>(
     try {
       setLoading(true);
       const queryParams = new URLSearchParams(params).toString();
-      const response = await fetch(`${url}?${queryParams}`);
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const result = (await response.json()) as T;
-      setData(result);
+      const response = await axios.get(`${url}?${queryParams}`);
+      const result = response.data;
+      setData(result as T);
     } catch (err) {
       console.error(err);
       setError(err as Error);
@@ -67,24 +63,13 @@ const usePost = <T>(url: string): UsePostResponse<T> => {
     setError(null);
 
     try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
+      const response = await axios.post(url, payload, {
+        headers: { 'Content-Type': 'application/json' }
       });
-
-      if (!response.ok) {
-        // Handle HTTP errors
-        const errorText = await response.text();
-        throw new Error(errorText || 'An error occurred');
-      }
-
-      const result: T = await response.json();
-      setData(result);
+      const result = response.data;
+      setData(result as T);
     } catch (err: any) {
-      setError(err.message || 'An error occurred');
+      setError(err?.message || 'An error occurred');
     } finally {
       setLoading(false);
     }
