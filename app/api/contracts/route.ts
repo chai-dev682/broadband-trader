@@ -8,7 +8,7 @@ import { ethers } from 'ethers';
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-    const limit = parseInt(searchParams.get('limit') || '10', 2); // default to 10 results per page
+    const limit = parseInt(searchParams.get('limit') || '10', 10); // default to 10 results per page
     const lastVisible = searchParams.get('lastVisible'); // get the last visible document ID from query
 
     const db = admin.firestore();

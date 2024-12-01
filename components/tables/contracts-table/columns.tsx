@@ -25,7 +25,7 @@ export const columns: ColumnDef<Contract>[] = [
     enableHiding: false
   },
   {
-    accessorKey: 'id',
+    accessorKey: 'contract_id',
     header: 'Contract ID'
   },
   // {
