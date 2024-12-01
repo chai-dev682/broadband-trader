@@ -31,6 +31,7 @@ export async function POST(req: Request) {
         status: 401
       });
     }
+    console.log(process.env.NEXTAUTH_SECRET);
 
     return new Response(JSON.stringify(user), { status: 200 });
   } catch (error) {

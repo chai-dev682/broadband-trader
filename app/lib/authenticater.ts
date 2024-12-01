@@ -10,6 +10,7 @@ const NotAuthenticated = async () => {
 };
 
 const authenticate = async (req: NextRequest) => {
+  console.log(process.env.NEXTAUTH_SECRET);
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
   if (!token) return null;
   return token;
